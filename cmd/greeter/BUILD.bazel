@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "greeter_lib",
+    srcs = [
+        "cmd_greet.go",
+        "cmd_super_greet.go",
+        "command.go",
+    ],
+    importpath = "github.com/example/project/cmd/greeter",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_google_subcommands//:subcommands",
+        "@com_github_rs_zerolog//:zerolog",
+        "@com_github_rs_zerolog//log",
+    ],
+)
+
+go_binary(
+    name = "greeter",
+    embed = [":greeter_lib"],
+    visibility = ["//visibility:public"],
+)

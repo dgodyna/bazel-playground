@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "repository",
+    srcs = ["entity.go"],
+    importpath = "github.com/example/project/pkg/repository",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/entity:go_default_library"],
+)
+
+go_test(
+    name = "repository_test",
+    srcs = ["entity_test.go"],
+    embed = [":repository"],
+    deps = [
+        "//pkg/entity:go_default_library",
+        "@tools_gotest//assert",
+        "@tools_gotest//assert/cmp",
+    ],
+)
