@@ -1,6 +1,9 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
 load("@rules_pkg//:mappings.bzl", "pkg_files")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+REGISTRY = "localhost:5001"
+
 
 # gazelle:prefix github.com/dgodyna/bazel-playground
 gazelle(name = "gazelle")
@@ -34,4 +37,21 @@ pkg_zip(
         ":package_busy_box",
     ],
     package_file_name = "busy_box_"+VERSION + ".zip"
+)
+
+
+container_image(
+    name = "busy_box_image",
+    base = "@busy_box_base//image",
+    files = ["//cmd/busybox"],
+    entrypoint = "busybox",
+)
+
+container_push(
+  name = "busy_box_image_publish",
+  format = "Docker",
+  registry = REGISTRY,
+  repository = "bazel-playground",
+  image = ":busy_box_image",
+  tag = VERSION ,
 )

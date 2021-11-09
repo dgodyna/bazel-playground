@@ -22,7 +22,7 @@ func main() {
 
 	b := backoff.NewExponentialBackOff()
 
-	// Start background printing
+	// Start background printing.
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
