@@ -1,4 +1,9 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_zip")
+load("@rules_pkg//:mappings.bzl", "pkg_attributes", "pkg_filegroup", "pkg_files", "pkg_mkdirs", "strip_prefix")
+
+load("@bazel_skylib//lib:paths.bzl", "paths")
+load("@bazel_skylib//lib:shell.bzl", "shell")
 
 # gazelle:prefix github.com/dgodyna/bazel-playground
 gazelle(name = "gazelle")
@@ -11,4 +16,21 @@ gazelle(
         "-prune",
     ],
     command = "update-repos",
+)
+
+pkg_files(
+    name = "package_busy_box",
+    srcs = [
+        "assets/scripts/server.sh",
+        "//cmd/busybox:busybox",
+    ],
+    # Where it should be in the final package
+    prefix = "bin",
+)
+
+pkg_zip(
+    name = "busy_box_archive",
+    srcs = [
+        ":package_busy_box",
+    ],
 )
