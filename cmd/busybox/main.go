@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/cenkalti/backoff/v4"
+	"github.com/dgodyna/bazel-playground/internal/version"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"os"
@@ -15,6 +16,7 @@ import (
 func main() {
 	log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout}).With().Timestamp().Logger().Level(zerolog.InfoLevel)
 
+	log.Info().Msgf("Version: %v", version.GetVersion())
 	ctx, cancelFunc := context.WithCancel(context.Background())
 	wg := sync.WaitGroup{}
 

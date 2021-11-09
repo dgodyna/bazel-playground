@@ -1,4 +1,5 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("//:version.bzl", "VERSION")
 
 go_library(
     name = "busybox_lib",
@@ -6,6 +7,7 @@ go_library(
     importpath = "github.com/dgodyna/bazel-playground/cmd/busybox",
     visibility = ["//visibility:private"],
     deps = [
+        "//internal/version",
         "@com_github_cenkalti_backoff_v4//:backoff",
         "@com_github_rs_zerolog//:zerolog",
         "@com_github_rs_zerolog//log",
@@ -16,4 +18,5 @@ go_binary(
     name = "busybox",
     embed = [":busybox_lib"],
     visibility = ["//visibility:public"],
+    x_defs = {"github.com/dgodyna/bazel-playground/internal/version.version": VERSION},
 )
