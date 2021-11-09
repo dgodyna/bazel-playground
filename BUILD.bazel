@@ -1,6 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
-# gazelle:prefix github.com/example/project
+# gazelle:prefix github.com/dgodyna/bazel-playground
 gazelle(name = "gazelle")
 
 gazelle(

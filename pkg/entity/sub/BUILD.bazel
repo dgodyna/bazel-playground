@@ -3,14 +3,14 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "sub",
     srcs = ["subentity.go"],
-    importpath = "github.com/example/project/pkg/entity/sub",
+    importpath = "github.com/dgodyna/bazel-playground/pkg/entity/sub",
     visibility = ["//visibility:public"],
-    deps = ["//pkg/entity:go_default_library"],
+    deps = ["//pkg/entity"],
 )
 
 go_test(
     name = "sub_test",
     srcs = ["subentity_test.go"],
     embed = [":sub"],
-    deps = ["//pkg/entity:go_default_library"],
+    deps = ["//pkg/entity"],
 )

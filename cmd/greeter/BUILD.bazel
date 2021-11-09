@@ -7,7 +7,7 @@ go_library(
         "cmd_super_greet.go",
         "command.go",
     ],
-    importpath = "github.com/example/project/cmd/greeter",
+    importpath = "github.com/dgodyna/bazel-playground/cmd/greeter",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_google_subcommands//:subcommands",
