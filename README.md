@@ -15,5 +15,5 @@ to `bazel` and collect some expertise.
 
 # Guides
 
-Navigate to [docs](docs) page to see guides for bazel migration. You can also check out `clean` brunch to make changes
+Navigate to [docs](docs) page to see guides for bazel migration. You can also check out `clean` branch to make changes
 by yourself from scratch.
