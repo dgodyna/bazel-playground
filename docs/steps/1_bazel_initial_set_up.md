@@ -115,7 +115,7 @@ bazel build //cmd/busybox
 ```
 
 You should see following output
- 
+
 ```
 INFO: Analyzed target //cmd/busybox:busybox (9 packages loaded, 182 targets configured).
 INFO: Found 1 target...
@@ -126,11 +126,18 @@ INFO: 10 processes: 3 internal, 7 darwin-sandbox.
 INFO: Build completed successfully, 10 total actions
 ```
 
-Now let's try to run compiled program: 
+Now let's try to run compiled program:
+
 ```
 ⇒  bazel-bin/cmd/busybox/busybox_/busybox
 2:22PM INF Version: unknown
 2:22PM INF Program uptime: '553.444207ms'
 2:22PM INF Program uptime: '1.635086508s'
 ^C2:22PM INF received cancellation signal 'interrupt'
+```
+
+And we can run tests for whole project:
+
+```
+bazel test //... 
 ```

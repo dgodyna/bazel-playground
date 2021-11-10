@@ -10,4 +10,8 @@ instruction.
 
 # Initial Project Set Up
 
+To configure go application build by bazel follow [this](steps/1_bazel_initial_set_up.md) step instructions.
 
+# Create Archive With Packaged Server
+
+To create archive on which generated server binary will be packaged follow [this](steps/2_create_archive.md) step.

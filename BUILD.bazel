@@ -2,8 +2,8 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
 load("@rules_pkg//:mappings.bzl", "pkg_files")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
-REGISTRY = "kubernetes.docker.internal:5001"
 
+REGISTRY = "kubernetes.docker.internal:5001"
 
 # gazelle:prefix github.com/dgodyna/bazel-playground
 gazelle(name = "gazelle")
@@ -30,28 +30,26 @@ pkg_files(
 
 load("//:version.bzl", "VERSION")
 
-
 pkg_zip(
     name = "busy_box_archive",
     srcs = [
         ":package_busy_box",
     ],
-    package_file_name = "busy_box_"+VERSION + ".zip"
+    package_file_name = "busy_box_" + VERSION + ".zip",
 )
-
 
 container_image(
     name = "busy_box_image",
     base = "@busy_box_base//image",
-    files = ["//cmd/busybox"],
     entrypoint = "busybox",
+    files = ["//cmd/busybox"],
 )
 
 container_push(
-  name = "busy_box_image_publish",
-  format = "Docker",
-  registry = REGISTRY,
-  repository = "bazel-playground",
-  image = ":busy_box_image",
-  tag = VERSION
+    name = "busy_box_image_publish",
+    format = "Docker",
+    image = ":busy_box_image",
+    registry = REGISTRY,
+    repository = "bazel-playground",
+    tag = VERSION,
 )

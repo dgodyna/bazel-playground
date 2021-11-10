@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "resource_test",
+    srcs = ["resource_test.go"],
+    data = glob(["testdata/**"]),
+    deps = ["@tools_gotest//assert"],
+)
