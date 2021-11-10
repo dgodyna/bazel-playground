@@ -2,12 +2,15 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
 load("@rules_pkg//:mappings.bzl", "pkg_files")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
+load("//:version.bzl", "VERSION")
 
+# Docker registry on which built image will be pushed
 REGISTRY = "kubernetes.docker.internal:5001"
 
 # gazelle:prefix github.com/dgodyna/bazel-playground
 gazelle(name = "gazelle")
 
+# rule to update go module dependencies in this project.
 gazelle(
     name = "gazelle-update-repos",
     args = [
@@ -18,6 +21,7 @@ gazelle(
     command = "update-repos",
 )
 
+# Package busybox application and server start script to file structure which is required in zip packaging
 pkg_files(
     name = "package_busy_box",
     srcs = [
@@ -28,8 +32,8 @@ pkg_files(
     prefix = "bin",
 )
 
-load("//:version.bzl", "VERSION")
 
+# Package busybox application and server start script with specified structure in zip archive
 pkg_zip(
     name = "busy_box_archive",
     srcs = [
@@ -38,6 +42,7 @@ pkg_zip(
     package_file_name = "busy_box_" + VERSION + ".zip",
 )
 
+# Package docker image with busybox application
 container_image(
     name = "busy_box_image",
     base = "@busy_box_base//image",
@@ -45,6 +50,7 @@ container_image(
     files = ["//cmd/busybox"],
 )
 
+# Push docker image with busybox application in the registry
 container_push(
     name = "busy_box_image_publish",
     format = "Docker",
