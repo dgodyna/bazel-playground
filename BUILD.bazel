@@ -53,4 +53,5 @@ container_push(
   registry = REGISTRY,
   repository = "bazel-playground",
   image = ":busy_box_image",
+  tag = VERSION
 )
