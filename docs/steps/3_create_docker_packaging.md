@@ -7,7 +7,7 @@ In this step we'll create docker image with generated application.
 To support docker packaging following [rules](https://github.com/bazelbuild/rules_docker) should be added. It'll allow
 building, pulling and pushing Docker/OCI images.
 
-To add this repository rules add following to `WORKSPACE.bazel`:
+To add this repository rules add following to `WORKSPACE`:
 
 ```
 http_archive(
@@ -35,7 +35,7 @@ load(
 
 ```
 
-Now let's load base image which will be used as a baseline for application. Add following to `WORKSPACE.bazel`:
+Now let's load base image which will be used as a baseline for application. Add following to `WORKSPACE`:
 
 ```
 container_pull(

@@ -41,7 +41,7 @@ go_rules_dependencies()
 
 go_register_toolchains(version = "1.17.2")
 
-gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE.bazel")
+gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE")
 
 # Packaging rules - to build archives and file structures
 http_archive(

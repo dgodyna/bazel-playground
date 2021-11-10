@@ -6,7 +6,7 @@ In this step we'll create zip archive containing correctly packaged built files.
 
 To package built artifact you'll need special [packaging rules](https://github.com/bazelbuild/rules_pkg).
 
-For that we have to add loading descriptors into `WORKSPACE.bazel`:
+For that we have to add loading descriptors into `WORKSPACE`:
 
 ```
 http_archive(
