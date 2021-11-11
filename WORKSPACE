@@ -41,6 +41,9 @@ go_rules_dependencies()
 
 go_register_toolchains(version = "1.17.2")
 
+# register own toolchain for build-time code analysis
+go_register_toolchains(nogo = "@//:nogo_vet")
+
 gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE")
 
 # Packaging rules - to build archives and file structures
