@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
+	"github.com/dgodyna/bazel-playground/pkg/api/petstore/impl"
 	"github.com/google/subcommands"
 	"github.com/rs/zerolog/log"
 )
@@ -32,6 +34,8 @@ func (g *superGreetCmd) SetFlags(f *flag.FlagSet) {
 
 func (g *superGreetCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...interface{}) subcommands.ExitStatus {
 	log.Info().Msgf("Super hello for %s!", g.userName)
+
+	fmt.Println(impl.GetUser())
 	return subcommands.ExitSuccess
 }
 

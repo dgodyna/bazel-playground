@@ -42,27 +42,30 @@ go_rules_dependencies()
 go_register_toolchains(version = "1.17.2")
 
 # register own toolchain for build-time code analysis
-go_register_toolchains(nogo = "@//:nogo_vet")
+# TODO uncomment when will perform exclusion
+# go_register_toolchains(nogo = "@//:nogo_vet")
 
 gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE")
 
 # Packaging rules - to build archives and file structures
 http_archive(
     name = "rules_pkg",
+    sha256 = "a89e203d3cf264e564fcb96b6e06dd70bc0557356eb48400ce4b5d97c2c3720d",
     urls = [
         "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
         "https://github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
     ],
-    sha256 = "a89e203d3cf264e564fcb96b6e06dd70bc0557356eb48400ce4b5d97c2c3720d",
 )
-load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
-rules_pkg_dependencies()
 
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+
+rules_pkg_dependencies()
 
 load(
     "@io_bazel_rules_docker//repositories:repositories.bzl",
     container_repositories = "repositories",
 )
+
 container_repositories()
 
 load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
@@ -76,8 +79,33 @@ load(
 
 # Pull docker image which will be used as a baseline for busybox application
 container_pull(
-  name = "busy_box_base",
-  registry = "gcr.io",
-  repository = "distroless/base-debian11",
-  digest = "sha256:0530d193888bcd7bd0376c8b34178ea03ddb0b2b18caf265135b6d3a393c8d05",
+    name = "busy_box_base",
+    digest = "sha256:0530d193888bcd7bd0376c8b34178ea03ddb0b2b18caf265135b6d3a393c8d05",
+    registry = "gcr.io",
+    repository = "distroless/base-debian11",
 )
+
+http_archive(
+    name = "com_google_protobuf",
+    # sha256 = "87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422",
+    strip_prefix = "protobuf-3.17.3",
+    urls = [
+        "https://github.com/protocolbuffers/protobuf/archive/v3.17.3.tar.gz",
+    ],
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
+####### Protobuf rules
+http_archive(
+    name = "rules_proto_grpc",
+    urls = ["https://github.com/rules-proto-grpc/rules_proto_grpc/archive/1.0.2.tar.gz"],
+    sha256 = "5f0f2fc0199810c65a2de148a52ba0aff14d631d4e8202f41aff6a9d590a471b",
+    strip_prefix = "rules_proto_grpc-1.0.2",
+)
+
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_toolchains", "rules_proto_grpc_repos")
+rules_proto_grpc_toolchains()
+rules_proto_grpc_repos()

@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
+	"github.com/dgodyna/bazel-playground/pkg/pet"
 	"github.com/google/subcommands"
 	"github.com/rs/zerolog/log"
 )
@@ -37,6 +39,7 @@ func (g *greetCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...interfa
 		return subcommands.ExitUsageError
 	}
 
+	fmt.Println(pet.GetPet())
 	log.Info().Msgf("Hello %s!", g.userName)
 	return subcommands.ExitSuccess
 }

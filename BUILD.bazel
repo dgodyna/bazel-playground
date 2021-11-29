@@ -3,7 +3,7 @@ load("@rules_pkg//:pkg.bzl", "pkg_zip")
 load("@rules_pkg//:mappings.bzl", "pkg_files")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_push")
 load("//:version.bzl", "VERSION")
-load("@io_bazel_rules_go//go:def.bzl", "nogo")
+#load("@io_bazel_rules_go//go:def.bzl", "nogo")
 
 # Docker registry on which built image will be pushed
 REGISTRY = "kubernetes.docker.internal:5001"
@@ -22,51 +22,52 @@ gazelle(
     command = "update-repos",
 )
 
+# TODO exclude other sources
 # build-time static code analysis
-nogo(
-    name = "nogo_vet",
-    visibility = ["//visibility:public"],
-    # These deps enable the analyses equivalent to running `go vet`.
-    # Passing vet = True enables only a tiny subset of these (the ones
-    # that are always correct).
-    # You can see the what `go vet` does by running `go doc cmd/vet`.
-    deps = [
-        "@org_golang_x_tools//go/analysis/passes/asmdecl:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/assign:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/atomic:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/atomicalign:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/bools:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/buildssa:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/buildtag:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/composite:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/copylock:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/ctrlflow:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/deepequalerrors:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/errorsas:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/findcall:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/httpresponse:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/ifaceassert:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/inspect:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/loopclosure:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/lostcancel:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/nilfunc:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/nilness:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/pkgfact:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/printf:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/shadow:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/shift:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/sortslice:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/stdmethods:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/stringintconv:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/structtag:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/testinggoroutine:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/tests:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/unmarshal:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/unreachable:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/unsafeptr:go_default_library",
-        "@org_golang_x_tools//go/analysis/passes/unusedresult:go_default_library",
-    ],
-)
+#nogo(
+#    name = "nogo_vet",
+#    visibility = ["//visibility:public"],
+#    # These deps enable the analyses equivalent to running `go vet`.
+#    # Passing vet = True enables only a tiny subset of these (the ones
+#    # that are always correct).
+#    # You can see the what `go vet` does by running `go doc cmd/vet`.
+#    deps = [
+#        "@org_golang_x_tools//go/analysis/passes/asmdecl:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/assign:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/atomic:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/atomicalign:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/bools:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/buildssa:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/buildtag:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/composite:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/copylock:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/ctrlflow:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/deepequalerrors:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/errorsas:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/findcall:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/httpresponse:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/ifaceassert:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/inspect:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/loopclosure:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/lostcancel:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/nilfunc:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/nilness:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/pkgfact:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/printf:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/shadow:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/shift:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/sortslice:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/stdmethods:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/stringintconv:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/structtag:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/testinggoroutine:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/tests:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/unmarshal:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/unreachable:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/unsafeptr:go_default_library",
+#        "@org_golang_x_tools//go/analysis/passes/unusedresult:go_default_library",
+#    ],
+#)
 
 # Package busybox application and server start script to file structure which is required in zip packaging
 pkg_files(
@@ -78,7 +79,6 @@ pkg_files(
     # Where it should be in the final package
     prefix = "bin",
 )
-
 
 # Package busybox application and server start script with specified structure in zip archive
 pkg_zip(
